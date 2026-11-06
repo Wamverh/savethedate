@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Save the Date | Vanessa & William</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Flourish Script & Luxury Editorial Serifs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: '#FBF9F5',
+            linen: '#F4EFEA',
+            antique: '#EAE3DA',
+            espresso: '#252220',
+            charcoal: '#3B3632',
+            gold: '#B89758',
+            deepGold: '#9E7D42',
+            softGold: '#D8C39E'
+          },
+          fontFamily: {
+            script: ['"Alex Brush"', 'cursive'],
+            serif: ['"Cormorant Garamond"', 'serif'],
+            display: ['"Cinzel"', 'serif'],
+            sans: ['"Montserrat"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100dvh;
+      background: radial-gradient(circle at 50% 15%, #FBF9F5 0%, #F3EEE7 55%, #E6DDD1 100%);
+      font-family: 'Cormorant Garamond', serif;
+      color: #252220;
+      overflow-x: hidden;
+      overscroll-behavior-y: none;
+    }
+
+    /* Tactile Fine Linen Paper Texture */
+    .paper-texture {
+      background-color: #FAF8F5;
+      background-image: 
+        radial-gradient(#D3C7B8 0.65px, transparent 0.65px),
+        radial-gradient(#D3C7B8 0.65px, #FAF8F5 0.65px);
+      background-size: 22px 22px;
+      background-position: 0 0, 11px 11px;
+    }
+
+    /* 3D Envelope Perspective Container */
+    .perspective-container {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .envelope-box {
+      width: 100%;
+      max-width: 340px;
+      height: 220px;
+      position: relative;
+      background: #E5DDD0;
+      border-radius: 12px;
+      box-shadow: 0 16px 36px -8px rgba(37, 34, 32, 0.24), 0 4px 12px rgba(37, 34, 32, 0.08);
+      margin: 0 auto;
+      transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Top Triangular Fold Flap */
+    .envelope-top-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-top: 130px solid #D5C9B7;
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.3s;
+      z-index: 25;
+      filter: drop-shadow(0 4px 5px rgba(37, 34, 32, 0.12));
+      cursor: pointer;
+    }
+
+    .envelope-top-flap.open {
+      transform: rotateX(180deg);
+      z-index: 5;
+      filter: drop-shadow(0 -3px 4px rgba(37, 34, 32, 0.08));
+    }
+
+    /* Envelope Side Folds */
+    .envelope-left-fold {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-top: 110px solid transparent;
+      border-bottom: 110px solid transparent;
+      border-left: 170px solid #DCD1C0;
+      border-radius: 12px 0 0 12px;
+      z-index: 18;
+      pointer-events: none;
+    }
+
+    .envelope-right-fold {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-top: 110px solid transparent;
+      border-bottom: 110px solid transparent;
+      border-right: 170px solid #DCD1C0;
+      border-radius: 0 12px 12px 0;
+      z-index: 18;
+      pointer-events: none;
+    }
+
+    .envelope-bottom-fold {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-bottom: 125px solid #D0C3AF;
+      border-radius: 0 0 12px 12px;
+      z-index: 19;
+      pointer-events: none;
+    }
+
+    /* Wax Seal Button */
+    .wax-seal-btn {
+      position: absolute;
+      top: 105px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #9E2A2B, #6A1213, #430B0B);
+      box-shadow: 0 8px 18px rgba(67, 11, 11, 0.38), inset 0 2px 3px rgba(255, 255, 255, 0.3);
+      z-index: 30;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+    }
+
+    .wax-seal-btn:active {
+      transform: translate(-50%, -50%) scale(0.92);
+    }
+
+    /* Gentle pulsing trigger */
+    @keyframes pulseGently {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(184, 151, 88, 0.35); }
+      50% { transform: scale(1.03); box-shadow: 0 0 0 9px rgba(184, 151, 88, 0); }
+    }
+    .pulse-tap {
+      animation: pulseGently 2.2s infinite ease-in-out;
+    }
+
+    /* Screen 2: Revealed Mobile Card Container */
+    #revealedCardContainer {
+      display: none;
+      opacity: 0;
+      transform: translateY(35px) scale(0.97);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #revealedCardContainer.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Oval Vintage Filigree Portrait Frame */
+    .oval-portrait-wrapper {
+      width: 175px;
+      height: 220px;
+      margin: 0 auto;
+      border-radius: 50%;
+      position: relative;
+      padding: 6px;
+      background: linear-gradient(135deg, #E2D3BE 0%, #B89758 50%, #8E703D 100%);
+      box-shadow: 0 8px 22px rgba(37, 34, 32, 0.16);
+    }
+
+    .oval-portrait-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #FBF9F5;
+      background: #ECE6DE;
+    }
+
+    .oval-portrait-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(108%) brightness(95%);
+    }
+
+    /* Romantic Floating Particle Petals */
+    .falling-petal {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99;
+      will-change: transform, opacity;
+      animation: petalFall linear forwards;
+    }
+
+    @keyframes petalFall {
+      0% {
+        transform: translateY(-8vh) translateX(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      20% { opacity: 0.85; }
+      80% { opacity: 0.8; }
+      100% {
+        transform: translateY(105dvh) translateX(40px) rotate(340deg) scale(1.05);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body class="flex flex-col items-center justify-between min-h-[100dvh] w-full px-4 py-3 select-none">
+
+  <!-- Mobile Top Bar: Audio Status & Quick Controls -->
+  <header class="w-full max-w-[420px] flex items-center justify-between z-50 pt-1 pb-2">
+    <div class="flex items-center space-x-1.5">
+      <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+      <span class="font-sans text-[10px] tracking-[0.24em] uppercase text-deepGold font-semibold">
+        Save the Date
+      </span>
+    </div>
+
+    <!-- Music Toggle Button (Tap-friendly min 44px) -->
+    <button 
+      id="musicToggleBtn" 
+      class="h-9 px-3 rounded-full bg-white/85 border border-gold/30 shadow-sm flex items-center gap-1.5 text-espresso font-sans text-[11px] font-medium tracking-wider active:scale-95 transition-all">
+      <svg id="musicIconPlaying" class="w-3.5 h-3.5 text-deepGold hidden" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+      </svg>
+      <svg id="musicIconMuted" class="w-3.5 h-3.5 text-charcoal/60" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M4.27 3L3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-1.73l4.27 4.27c-.24.08-.49.13-.77.16V21h1.73l3.46 3.46L21 23.19 4.27 3zM12 7h4V3h-6v5.18l2 2V7z"/>
+      </svg>
+      <span id="musicText">Tap to Play</span>
+    </button>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- SCREEN 1: CLOSED ENVELOPE (LANDING VIEW)                  -->
+  <!-- ======================================================== -->
+  <section id="envelopeScreen" class="w-full max-w-[420px] my-auto flex flex-col items-center justify-center transition-all duration-700">
+    
+    <!-- Header Teaser -->
+    <div class="text-center mb-6">
+      <p class="font-display text-[11px] uppercase tracking-[0.3em] text-deepGold font-semibold mb-1">
+        You've Got Mail From
+      </p>
+      <h1 class="font-script text-5xl sm:text-6xl text-espresso tracking-normal leading-tight">
+        Vanessa & William
+      </h1>
+      <p class="font-serif italic text-xs text-charcoal/70 tracking-widest mt-0.5">
+        A private digital delivery &bull; Orlando, FL
+      </p>
+    </div>
+
+    <!-- 3D Stationery Envelope -->
+    <div class="perspective-container w-full">
+      <div id="envelopeContainer" class="envelope-box cursor-pointer">
+        
+        <!-- Top Triangular Flap -->
+        <div id="envelopeFlap" class="envelope-top-flap">
+          <div class="absolute -top-[105px] left-1/2 -translate-x-1/2 w-64 text-center pointer-events-none">
+            <span class="font-script text-3xl text-espresso/90 drop-shadow-sm select-none">
+              Vanessa & William
+            </span>
+          </div>
+        </div>
+
+        <!-- Wax Seal Click Trigger -->
+        <div id="waxSeal" class="wax-seal-btn" title="Tap to open envelope">
+          <div class="w-11 h-11 rounded-full border border-yellow-200/40 flex items-center justify-center">
+            <span class="font-script text-2xl text-yellow-100/90 font-bold drop-shadow">
+              V&W
+            </span>
+          </div>
+        </div>
+
+        <!-- Fold Geometry for visual depth -->
+        <div class="envelope-left-fold"></div>
+        <div class="envelope-right-fold"></div>
+        <div class="envelope-bottom-fold"></div>
+      </div>
+    </div>
+
+    <!-- Bottom Action Prompt -->
+    <div class="text-center mt-7 flex flex-col items-center">
+      <button 
+        id="openEnvelopeActionBtn" 
+        class="pulse-tap min-h-[48px] px-6 py-2.5 rounded-full bg-white border border-gold/45 shadow-sm text-xs font-sans uppercase tracking-[0.24em] text-deepGold font-semibold flex items-center gap-2 active:scale-95 transition-all">
+        <svg class="w-4 h-4 text-deepGold animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+        </svg>
+        Click Envelope to Open
+      </button>
+      <p class="font-serif italic text-[11px] text-charcoal/60 mt-2">
+        Music begins softly upon opening
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- SCREEN 2: REVEALED SAVE THE DATE CARD (FULL PHONE VIEW)  -->
+  <!-- ======================================================== -->
+  <section id="revealedCardContainer" class="w-full max-w-[420px] my-auto pb-4">
+    <article class="paper-texture rounded-xl border border-[#E5DDD0] shadow-xl p-5 sm:p-7 text-center relative overflow-hidden">
+      
+      <!-- Filigree Top Accents -->
+      <div class="flex items-center justify-between mb-2 opacity-80">
+        <svg class="w-7 h-7 text-deepGold" viewBox="0 0 100 100" fill="currentColor">
+          <path d="M10,10 C40,10 60,30 60,60 C60,40 80,20 100,10 C80,30 80,60 50,60 C30,60 10,40 10,10 Z"/>
+        </svg>
+        <span class="font-display text-[9px] uppercase tracking-[0.35em] text-deepGold font-semibold">
+          Save the Date
+        </span>
+        <svg class="w-7 h-7 text-deepGold rotate-90" viewBox="0 0 100 100" fill="currentColor">
+          <path d="M10,10 C40,10 60,30 60,60 C60,40 80,20 100,10 C80,30 80,60 50,60 C30,60 10,40 10,10 Z"/>
+        </svg>
+      </div>
+
+      <!-- Main Script Heading -->
+      <div class="mb-3">
+        <h2 class="font-script text-6xl text-espresso drop-shadow-sm -rotate-1">
+          Save the Date
+        </h2>
+        <p class="font-display text-[10px] tracking-[0.3em] uppercase text-deepGold -mt-1 font-semibold">
+          For The Wedding Of
+        </p>
+      </div>
+
+      <!-- Ornate Oval Portrait of the Couple -->
+      <div class="oval-portrait-wrapper mb-4">
+        <div class="oval-portrait-inner">
+          <img 
+            id="couplePhoto"
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" 
+            alt="Vanessa & William" 
+            onerror="this.onerror=null; this.src='https://placehold.co/400x500/EADECF/2D2926?text=Vanessa+%26+William';"
+          />
+        </div>
+      </div>
+
+      <!-- Wedding Details -->
+      <div class="mb-3">
+        <p class="font-display text-2xl tracking-[0.16em] text-espresso font-semibold">
+          07 . 12 . 2027
+        </p>
+        <h3 class="font-display text-sm tracking-[0.25em] text-deepGold uppercase font-semibold mt-1">
+          Vanessa & William
+        </h3>
+        <p class="font-sans text-[11px] tracking-[0.22em] uppercase text-charcoal/80 mt-1 font-medium">
+          Orlando, Florida
+        </p>
+      </div>
+
+      <!-- Prompt -->
+      <p class="font-serif italic text-xs text-charcoal/85 max-w-[280px] mx-auto mb-4 leading-relaxed">
+        Please click below to share your mailing address for our formal invitation.
+      </p>
+
+      <!-- Primary Mobile CTA Button (Min 48px thumb height) -->
+      <div class="w-full max-w-[300px] mx-auto mb-3">
+        <a 
+          href="https://www.zola.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="flex items-center justify-center min-h-[48px] w-full px-6 py-3 bg-gradient-to-r from-deepGold via-gold to-deepGold text-white font-sans text-xs uppercase font-medium tracking-[0.24em] rounded-md shadow-md active:scale-[0.98] transition-transform">
+          Share Your Address
+        </a>
+      </div>
+
+      <!-- Tagline -->
+      <p class="font-sans text-[9px] uppercase tracking-[0.3em] text-deepGold font-semibold mb-5">
+        Formal Invitation to Follow
+      </p>
+
+      <!-- Live Real-Time Countdown to July 12, 2027 -->
+      <div class="border-t border-b border-gold/25 py-3 mb-3">
+        <p class="font-serif italic text-xs text-charcoal/70 tracking-wider mb-2">
+          The countdown is on.
+        </p>
+        
+        <div class="grid grid-cols-4 gap-2 max-w-[270px] mx-auto">
+          <div class="bg-linen/70 border border-gold/25 rounded-md p-1.5">
+            <span id="daysCount" class="block font-display text-base font-bold text-espresso">---</span>
+            <span class="block font-sans text-[8px] uppercase tracking-wider text-charcoal/70">Days</span>
+          </div>
+          <div class="bg-linen/70 border border-gold/25 rounded-md p-1.5">
+            <span id="hoursCount" class="block font-display text-base font-bold text-espresso">--</span>
+            <span class="block font-sans text-[8px] uppercase tracking-wider text-charcoal/70">Hours</span>
+          </div>
+          <div class="bg-linen/70 border border-gold/25 rounded-md p-1.5">
+            <span id="minutesCount" class="block font-display text-base font-bold text-espresso">--</span>
+            <span class="block font-sans text-[8px] uppercase tracking-wider text-charcoal/70">Mins</span>
+          </div>
+          <div class="bg-linen/70 border border-gold/25 rounded-md p-1.5">
+            <span id="secondsCount" class="block font-display text-base font-bold text-deepGold">--</span>
+            <span class="block font-sans text-[8px] uppercase tracking-wider text-charcoal/70">Secs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Replay / Reclose Link -->
+      <button id="recloseCardBtn" class="font-sans text-[10px] uppercase tracking-widest text-charcoal/45 hover:text-deepGold py-1 active:scale-95 transition-all">
+        &larr; View Envelope Again
+      </button>
+    </article>
+  </section>
+
+  <!-- Mobile Footer -->
+  <footer class="w-full max-w-[420px] text-center py-2">
+    <p class="font-display text-[9px] tracking-[0.24em] text-charcoal/50 uppercase">
+      Vanessa Escalante &bull; William Verhelst
+    </p>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT: WEB AUDIO & MOBILE TOUCH LOGIC               -->
+  <!-- ======================================================== -->
+  <script>
+    // State
+    let isEnvelopeOpen = false;
+    let audioContext = null;
+    let isMusicPlaying = false;
+    let musicTimer = null;
+
+    // DOM Elements
+    const envelopeScreen = document.getElementById('envelopeScreen');
+    const revealedCardContainer = document.getElementById('revealedCardContainer');
+    const envelopeFlap = document.getElementById('envelopeFlap');
+    const waxSeal = document.getElementById('waxSeal');
+    const envelopeContainer = document.getElementById('envelopeContainer');
+    const openEnvelopeActionBtn = document.getElementById('openEnvelopeActionBtn');
+    const recloseCardBtn = document.getElementById('recloseCardBtn');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIconPlaying = document.getElementById('musicIconPlaying');
+    const musicIconMuted = document.getElementById('musicIconMuted');
+    const musicText = document.getElementById('musicText');
+
+    // --- Web Audio Romantic Harp/Lullaby Synthesizer ---
+    // Zero external audio files; works instantly on iOS & Android
+    function initWebAudio() {
+      if (!audioContext) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        audioContext = new AudioCtx();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    }
+
+    const romanticChords = [
+      [261.63, 329.63, 392.00, 493.88], // Cmaj7 (C4, E4, G4, B4)
+      [349.23, 440.00, 523.25, 659.25], // Fmaj7 (F4, A4, C5, E5)
+      [220.00, 261.63, 329.63, 392.00], // Am7   (A3, C4, E4, G4)
+      [196.00, 293.66, 392.00, 440.00]  // Gsus4 (G3, D4, G4, A4)
+    ];
+
+    let chordStep = 0;
+    let noteStep = 0;
+
+    function playHarpPluck(frequency) {
+      if (!audioContext || !isMusicPlaying) return;
+
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(frequency, audioContext.currentTime);
+
+      // Delicate harp envelope
+      const now = audioContext.currentTime;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.08, now + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+
+      osc.start(now);
+      osc.stop(now + 2.3);
+    }
+
+    function startMusic() {
+      initWebAudio();
+      isMusicPlaying = true;
+      updateMusicButtonUI(true);
+
+      if (musicTimer) clearInterval(musicTimer);
+
+      musicTimer = setInterval(() => {
+        if (!isMusicPlaying) return;
+        const currentChord = romanticChords[chordStep];
+        playHarpPluck(currentChord[noteStep]);
+
+        noteStep++;
+        if (noteStep >= currentChord.length) {
+          noteStep = 0;
+          chordStep = (chordStep + 1) % romanticChords.length;
+        }
+      }, 540);
+    }
+
+    function stopMusic() {
+      isMusicPlaying = false;
+      if (musicTimer) {
+        clearInterval(musicTimer);
+        musicTimer = null;
+      }
+      updateMusicButtonUI(false);
+    }
+
+    function updateMusicButtonUI(playing) {
+      if (playing) {
+        musicIconPlaying.classList.remove('hidden');
+        musicIconMuted.classList.add('hidden');
+        musicText.innerText = 'Playing';
+      } else {
+        musicIconPlaying.classList.add('hidden');
+        musicIconMuted.classList.remove('hidden');
+        musicText.innerText = 'Muted';
+      }
+    }
+
+    musicToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isMusicPlaying) {
+        stopMusic();
+      } else {
+        startMusic();
+      }
+    });
+
+    // --- Romantic Golden Sparkles / Rose Petals ---
+    function triggerPetalShower() {
+      const colors = ['#D8C39E', '#B89758', '#EAE3DA', '#F4EFEA'];
+      const count = 22;
+
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const petal = document.createElement('div');
+          petal.className = 'falling-petal';
+
+          const size = Math.random() * 10 + 7;
+          const left = Math.random() * 92;
+          const duration = Math.random() * 2.8 + 3.2;
+
+          petal.style.width = `${size}px`;
+          petal.style.height = `${size * 1.3}px`;
+          petal.style.left = `${left}vw`;
+          petal.style.top = '-15px';
+          petal.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          petal.style.borderRadius = '50% 0 50% 50%';
+          petal.style.animationDuration = `${duration}s`;
+
+          document.body.appendChild(petal);
+          setTimeout(() => petal.remove(), duration * 1000);
+        }, i * 90);
+      }
+    }
+
+    // --- Envelope Open / Card Reveal Animation Flow ---
+    function openEnvelopeExperience() {
+      if (isEnvelopeOpen) return;
+      isEnvelopeOpen = true;
+
+      // Start music on this direct user touch event
+      if (!isMusicPlaying) {
+        startMusic();
+      }
+
+      // 1. Vanish wax seal
+      waxSeal.style.opacity = '0';
+      waxSeal.style.transform = 'translate(-50%, -50%) scale(1.3)';
+
+      // 2. Flip open envelope flap in 3D
+      envelopeFlap.classList.add('open');
+
+      // 3. Trigger fluttering petals
+      triggerPetalShower();
+
+      // 4. Smooth transition from envelope to the full mobile card
+      setTimeout(() => {
+        envelopeScreen.style.opacity = '0';
+        envelopeScreen.style.transform = 'translateY(-20px) scale(0.95)';
+        
+        setTimeout(() => {
+          envelopeScreen.style.display = 'none';
+          revealedCardContainer.classList.add('visible');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 350);
+      }, 550);
+    }
+
+    function recloseEnvelopeExperience() {
+      if (!isEnvelopeOpen) return;
+      isEnvelopeOpen = false;
+
+      revealedCardContainer.classList.remove('visible');
+
+      setTimeout(() => {
+        envelopeScreen.style.display = 'flex';
+        setTimeout(() => {
+          envelopeScreen.style.opacity = '1';
+          envelopeScreen.style.transform = 'translateY(0) scale(1)';
+          envelopeFlap.classList.remove('open');
+          waxSeal.style.opacity = '1';
+          waxSeal.style.transform = 'translate(-50%, -50%) scale(1)';
+        }, 50);
+      }, 300);
+    }
+
+    // Touch and Click Event Listeners
+    envelopeContainer.addEventListener('click', openEnvelopeExperience);
+    openEnvelopeActionBtn.addEventListener('click', openEnvelopeExperience);
+    recloseCardBtn.addEventListener('click', recloseEnvelopeExperience);
+
+    // --- Real-Time Countdown to July 12, 2027 ---
+    const weddingDate = new Date('July 12, 2027 16:00:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+
+      if (distance <= 0) {
+        document.getElementById('daysCount').innerText = '00';
+        document.getElementById('hoursCount').innerText = '00';
+        document.getElementById('minutesCount').innerText = '00';
+        document.getElementById('secondsCount').innerText = '00';
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById('daysCount').innerText = String(days).padStart(2, '0');
+      document.getElementById('hoursCount').innerText = String(hours).padStart(2, '0');
+      document.getElementById('minutesCount').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('secondsCount').innerText = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
